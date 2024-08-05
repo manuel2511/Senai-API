@@ -1,14 +1,31 @@
-import express from 'express'; // Usando import em vez de require
-import productRoutes from './src/routes/productRoutes.js'; // Certifique-se de usar a extensão .js
+const express = require('express');
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const path = require('path');
+const authRoutes = require('./routes/authRoutes');
+const productRoutes  = require('./routes/productRoutes');
+
 
 const app = express();
 const port = 3000; // Define a porta do servidor
 
-app.use(express.json()); // Middleware para parsear JSON
+// Configurações do EJS
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
+// Middlewares
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+    secret: 'secreta',
+    resave: false,
+    saveUninitialized: true
+}));
+
+// Rotas
+app.use('/', authRoutes);
 app.use('/api/products', productRoutes); // Define a rota base para produtos
 
-// Inicia o servidor na porta especificada
 app.listen(port, (error) => {
   if (error) {
     console.log("Ocorreu um erro ao rodar o servidor!");

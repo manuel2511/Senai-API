@@ -1,7 +1,6 @@
-import products from '../data/products.js'; // Importa o array de produtos
-
+let products = [];
 // Função para criar um novo produto
-export const createProduct = (req, res) => {
+exports.createProduct = (req, res) => {
   const { nome, preco } = req.body; // Desestrutura o nome e o preço do corpo da requisição
   const id = products.length + 1; // Gera um novo ID para o produto
   const newProduct = { id, nome, preco }; // Cria um novo objeto de produto
@@ -10,12 +9,12 @@ export const createProduct = (req, res) => {
 };
 
 // Função para obter todos os produtos
-export const getAllProducts = (req, res) => {
+exports.getAllProducts = (req, res) => {
   res.status(200).json(products); // Retorna todos os produtos com status 200
 };
 
 // Função para obter um produto pelo ID
-export const getProductById = (req, res) => {
+exports.getProductById = (req, res) => {
   const { id } = req.params; // Obtém o ID dos parâmetros da URL
   const product = products.find(p => p.id == id); // Encontra o produto pelo ID
   if (!product) {
@@ -25,7 +24,7 @@ export const getProductById = (req, res) => {
 };
 
 // Função para atualizar um produto pelo ID
-export const updateProduct = (req, res) => {
+exports.updateProduct = (req, res) => {
   const { id } = req.params; // Obtém o ID dos parâmetros da URL
   const { nome, preco } = req.body; // Desestrutura o nome e o preço do corpo da requisição
   const product = products.find(p => p.id === id); // Encontra o produto pelo ID
@@ -38,7 +37,7 @@ export const updateProduct = (req, res) => {
 };
 
 // Função para deletar um produto pelo ID
-export const deleteProduct = (req, res) => {
+exports.deleteProduct = (req, res) => {
   const { id } = req.params; // Obtém o ID dos parâmetros da URL
   const productIndex = products.findIndex(p => p.id == id); // Encontra o índice do produto pelo ID
   if (productIndex === -1) {
